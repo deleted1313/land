@@ -4,7 +4,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 var config = {
   yt: {
-    keys: ["AIzaSyDmUSPGOk1VVSNn5oXwmijh_PDcex2Xx_8", "AIzaSyBWWkpH4ALM-qTFzFmSnSN-UkuJNm3Hk7c", "AIzaSyB_oDxGX8PBOxWUImp6lkr0vX_38iYaJ3Q", "AIzaSyAisTC7s45itdTlS6I20UlqrNUXeoQaKwg"],
+    keys: ["AIzaSyACZNx7fSYJnmX9uB97oNpeMtZd82rIvT4"],
     id: "UCny_HyF7Y8qLPvrIE0zEJGQ"
   },
   inst: {
@@ -18,6 +18,7 @@ var currentYtItems = [];
 var nextPageToken = null;
 var totalResults = null;
 var currentKey = config.yt.keys[0];
+var badRequests = 0;
 
 var disableUi = function disableUi() {
   return document.querySelector("#getPosts").classList.add("btnSpinner");
@@ -28,23 +29,33 @@ var enableUi = function enableUi() {
 
 var ytRequest = function ytRequest() {
   disableUi();
-  return fetch("https://www.googleapis.com/youtube/v3/search?key=" + currentKey + "&channelId=" + config.yt.id + "&part=snippet,id&order=date&maxResults=3" + (nextPageToken ? "&pageToken=" + nextPageToken : "")).then(function (response) {
+  return fetch("https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=PL46iPM6YP7ysED-GmBYbEnp4EWIyqtusf&order=date&maxResults=3" + (nextPageToken ? "&pageToken=" + nextPageToken : "") + "&key=" + currentKey
+
+  // `https://www.googleapis.com/youtube/v3/search?key=${currentKey}&channelId=${
+  //   config.yt.id
+  // }&part=snippet,id&order=date&maxResults=3${
+  //   nextPageToken ? `&pageToken=${nextPageToken}` : ""
+  // }`
+  ).then(function (response) {
     return response.json();
   }).then(function (response) {
     if (response.error && response.error.code === 403) {
       currentKey = config.yt.keys.find(function (e) {
         return e !== currentKey;
       });
+      if (requests > 5) return;
+      requests++;
       ytRequest();
     }
     nextPageToken = response.nextPageToken;
     totalResults = response.pageInfo.totalResults;
     return response;
   }).then(function (response) {
+    console.log(response);
     nextPageToken = response.nextPageToken;
     currentYtItems = [].concat(_toConsumableArray(response.items.map(function (el) {
       return {
-        id: el.id.videoId,
+        id: el.snippet.resourceId.videoId,
         img: el.snippet.thumbnails.medium.url
       };
     }).filter(function (el) {
@@ -128,6 +139,7 @@ var renderYtItems = function renderYtItems(ytItems) {
   var html = function html(id, img) {
     return "\n                      <a href=\"" + getYtHref(id) + "\" target=\"_blank\">\n                          <img src=\"" + img + "\" alt=\"Alt\">\n                      </a>";
   };
+  console.log(ytItems);
   ytItems.forEach(function (el) {
     var elem = document.createElement("div");
     elem.classList.add("item_video");
