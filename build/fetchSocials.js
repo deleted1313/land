@@ -27,8 +27,43 @@ var enableUi = function enableUi() {
   return document.querySelector("#getPosts").classList.remove("btnSpinner");
 };
 
+var getCookie = function getCookie(name) {
+  var cookieSeparator = '; ';
+  var valueCookieSeparator = '=';
+
+  var cookies = document.cookie.split(cookieSeparator).map(function (cookie) {
+    return cookie.split(valueCookieSeparator);
+  });
+
+  var cookiesWithDesiredName = cookies.filter(function (cookie) {
+    return cookie[0] === name;
+  });
+
+  if (cookiesWithDesiredName.length === 0) {
+    return null;
+  }
+
+  if (cookiesWithDesiredName.length === 1) {
+    var valueCookieWithDesiredName = decodeURIComponent(cookiesWithDesiredName[0][1]);
+    return valueCookieWithDesiredName;
+  }
+
+  var valuesCookieWithDesiredName = cookiesWithDesiredName.map(function (cookie) {
+    return decodeURIComponent(cookie[1]);
+  });
+
+  return valuesCookieWithDesiredName;
+};
+
 var ytRequest = function ytRequest() {
+  // if (getCookie('fetchCookie')) return
+  if (eval("[" + localStorage.getItem('ytItems') + "]").length > 16) {
+    document.querySelector("#getPosts").style = "display: none";
+    renderYtItems(storedItems);
+    return;
+  }
   disableUi();
+
   return fetch("https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=PL46iPM6YP7ysED-GmBYbEnp4EWIyqtusf&order=date&maxResults=3" + (nextPageToken ? "&pageToken=" + nextPageToken : "") + "&key=" + currentKey
 
   // `https://www.googleapis.com/youtube/v3/search?key=${currentKey}&channelId=${
@@ -51,7 +86,6 @@ var ytRequest = function ytRequest() {
     totalResults = response.pageInfo.totalResults;
     return response;
   }).then(function (response) {
-    console.log(response);
     nextPageToken = response.nextPageToken;
     currentYtItems = [].concat(_toConsumableArray(response.items.map(function (el) {
       return {
@@ -61,7 +95,12 @@ var ytRequest = function ytRequest() {
     }).filter(function (el) {
       return el.id;
     })));
+
     ytItems = [].concat(_toConsumableArray(ytItems), _toConsumableArray(currentYtItems));
+    console.log(ytItems);
+    localStorage.setItem('ytItems', "" + ytItems.map(function (el) {
+      return JSON.stringify(el);
+    }));
     if (ytItems.length === totalResults - 2) {
       document.querySelector("#getPosts").style = "display: none";
     }
