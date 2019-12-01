@@ -68,7 +68,7 @@ var renderInstItems = function renderInstItems(items) {
         link = _ref.link;
 
     console.log(link);
-    return "\n  <div class=\"image_moments\">\n    <a href=\"" + link + "\" target=\"_blank\">\n        <img src=\"" + img + "\" alt=\"\" />\n    </a>\n  </div>\n  <div class=\"social\">\n    <a href=\"#\" class=\"btn_like\">" + likes + "</a>\n    <a href=\"#\" class=\"btn_comment\">" + comments + "</a>\n</div>";
+    return "\n  <div class=\"image_moments\">\n    <a href=\"" + link + "\" target=\"_blank\">\n        <img src=\"" + img + "\" alt=\"\" />\n    </a>\n  </div>\n  <div class=\"social\">\n    <a target=\"_blank\" href=\"" + link + "\" class=\"btn_like\">" + likes + "</a>\n    <a target=\"_blank\" href=\"" + link + "\" class=\"btn_comment\">" + comments + "</a>\n</div>";
   };
   items.forEach(function (el) {
     var elem = document.createElement("div");
