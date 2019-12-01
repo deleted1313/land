@@ -1,0 +1,195 @@
+﻿<html lang="ru">
+  <script
+    type="text/javascript"
+    charset="utf-8"
+    id="zm-extension"
+    src="chrome-extension://fdcgdnkidjaadafnichfpabhfomcebme/scripts/webrtc-patch.js"
+    async=""
+  ></script>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Своё с Андреем Даниленко</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="css/main.css" />
+    <!--[if lte IE 8]>
+      <script src="js/html5.js"></script>
+    <![endif]-->
+    <style>
+      .btnSpinner,
+      .btnSpinner:after {
+        border-radius: 50%;
+        width: 10em;
+        height: 10em;
+      }
+      .btnSpinner {
+        margin: 60px auto;
+        font-size: 10px;
+        position: relative;
+        text-indent: -9999em;
+        border-top: 1.1em solid rgba(255, 255, 255, 0.2);
+        border-right: 1.1em solid rgba(255, 255, 255, 0.2);
+        border-bottom: 1.1em solid rgba(255, 255, 255, 0.2);
+        border-left: 1.1em solid #ffffff;
+        -webkit-transform: translateZ(0);
+        -ms-transform: translateZ(0);
+        transform: translateZ(0);
+        -webkit-animation: load8 1.1s infinite linear;
+        animation: load8 1.1s infinite linear;
+      }
+      @-webkit-keyframes load8 {
+        0% {
+          -webkit-transform: rotate(0deg);
+          transform: rotate(0deg);
+        }
+        100% {
+          -webkit-transform: rotate(360deg);
+          transform: rotate(360deg);
+        }
+      }
+      @keyframes load8 {
+        0% {
+          -webkit-transform: rotate(0deg);
+          transform: rotate(0deg);
+        }
+        100% {
+          -webkit-transform: rotate(360deg);
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="main_head">
+      <div class="wrapper">
+        <nav class="menu">
+          <ul>
+            <li><a href="#about">о проекте</a></li>
+            <li><a href="#video">видео</a></li>
+            <li><a href="#moments">моменты</a></li>
+          </ul>
+        </nav>
+        <a href="/" class="logo">
+          <img src="img/logo.svg" alt="Alt" />
+        </a>
+      </div>
+    </header>
+    <div id="about" class="about">
+      <div class="wrapper">
+        <h2>О проекте</h2>
+        <p>
+          «СВОЁ» – проект о сельском хозяйстве, включающий в себя цикл фильмов о
+          компаниях и людях, которые вносят значительный вклад в развитие АПК
+          России.
+        </p>
+        <p>
+          Мы хотим показать, как в России производят продукты питания, всю
+          цепочку, от фермы до прилавка.
+        </p>
+        <p>
+          Ведущий программы, Андрей Даниленко – известный эксперт в области
+          сельского хозяйства, вместе со съемочной группой объедет страну,
+          посетит реальные производства и покажет, что в России есть
+          высокотехнологичные предприятия, которые производят качественные, свои
+          продукты.
+        </p>
+        <p>Проект выходит при поддержке ВГТРК.</p>
+      </div>
+    </div>
+    <div id="video" class="video">
+      <div class="wrapper">
+        <h2>Видео</h2>
+        <div class="wrap_video" id="ytContainer"></div>
+        <a href="#" id="getPosts" class="btn">Загрузить ещё</a>
+      </div>
+    </div>
+    <div id="moments" class="moments">
+      <div class="wrapper">
+        <h2>Моменты</h2>
+        <div
+          class="wrap_moments masonry"
+          style="position: relative; height: 766px;"
+        >
+          <div
+            class="item_moments masonry-brick"
+            style="position: absolute; top: 0px; left: 0px;"
+          >
+            <div class="image_moments">
+              <img src="img/img_1.jpg" alt="" />
+            </div>
+            <div class="social">
+              <a href="#" class="btn_like">512</a>
+              <a href="#" class="btn_comment">31</a>
+            </div>
+          </div>
+          <div
+            class="item_moments masonry-brick"
+            style="position: absolute; top: 0px; left: 389px;"
+          >
+            <div class="image_moments">
+              <img src="img/img_2.jpg" alt="" />
+            </div>
+            <div class="social">
+              <a href="#" class="btn_like">453</a>
+              <a href="#" class="btn_comment">15</a>
+            </div>
+          </div>
+          <div
+            class="item_moments masonry-brick"
+            style="position: absolute; top: 0px; left: 778px;"
+          >
+            <div class="image_moments">
+              <img src="img/img_3.jpg" alt="" />
+            </div>
+            <div class="social">
+              <a href="#" class="btn_like">712</a>
+              <a href="#" class="btn_comment">18</a>
+            </div>
+          </div>
+          <div
+            class="item_moments masonry-brick"
+            style="position: absolute; top: 283px; left: 389px;"
+          >
+            <div class="image_moments">
+              <img src="img/img_5.jpg" alt="" />
+            </div>
+            <div class="social">
+              <a href="#" class="btn_like">455</a>
+              <a href="#" class="btn_comment">36</a>
+            </div>
+          </div>
+          <div
+            class="item_moments masonry-brick"
+            style="position: absolute; top: 383px; left: 0px;"
+          >
+            <div class="image_moments">
+              <img src="img/img_4.jpg" alt="" />
+            </div>
+            <div class="social">
+              <a href="#" class="btn_like">952</a>
+              <a href="#" class="btn_comment">65</a>
+            </div>
+          </div>
+        </div>
+        <a href="#" class="btn">Загрузить ещё</a>
+      </div>
+    </div>
+    <footer>
+      <div class="wrapper">
+        <img src="img/mayak_logo.svg" alt="Alt" />
+        <img src="img/rshb_logo.svg" alt="Alt" />
+        <img src="img/vesti_logo.svg" alt="Alt" />
+      </div>
+    </footer>
+
+    <script src="js/libs.min.js"></script>
+
+    <script src="js/jquery.masonry.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/fetchSocials.js"></script>
+  </body>
+</html>
