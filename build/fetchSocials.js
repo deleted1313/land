@@ -27,51 +27,10 @@ var enableUi = function enableUi() {
   return document.querySelector("#getPosts").classList.remove("btnSpinner");
 };
 
-var getCookie = function getCookie(name) {
-  var cookieSeparator = '; ';
-  var valueCookieSeparator = '=';
-
-  var cookies = document.cookie.split(cookieSeparator).map(function (cookie) {
-    return cookie.split(valueCookieSeparator);
-  });
-
-  var cookiesWithDesiredName = cookies.filter(function (cookie) {
-    return cookie[0] === name;
-  });
-
-  if (cookiesWithDesiredName.length === 0) {
-    return null;
-  }
-
-  if (cookiesWithDesiredName.length === 1) {
-    var valueCookieWithDesiredName = decodeURIComponent(cookiesWithDesiredName[0][1]);
-    return valueCookieWithDesiredName;
-  }
-
-  var valuesCookieWithDesiredName = cookiesWithDesiredName.map(function (cookie) {
-    return decodeURIComponent(cookie[1]);
-  });
-
-  return valuesCookieWithDesiredName;
-};
-
 var ytRequest = function ytRequest() {
-  // if (getCookie('fetchCookie')) return
-  if (eval("[" + localStorage.getItem('ytItems') + "]").length > 16) {
-    document.querySelector("#getPosts").style = "display: none";
-    renderYtItems(storedItems);
-    return;
-  }
   disableUi();
 
-  return fetch("https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=PL46iPM6YP7ysED-GmBYbEnp4EWIyqtusf&order=date&maxResults=3" + (nextPageToken ? "&pageToken=" + nextPageToken : "") + "&key=" + currentKey
-
-  // `https://www.googleapis.com/youtube/v3/search?key=${currentKey}&channelId=${
-  //   config.yt.id
-  // }&part=snippet,id&order=date&maxResults=3${
-  //   nextPageToken ? `&pageToken=${nextPageToken}` : ""
-  // }`
-  ).then(function (response) {
+  return fetch("https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=PL46iPM6YP7ysED-GmBYbEnp4EWIyqtusf&order=date&maxResults=3" + (nextPageToken ? "&pageToken=" + nextPageToken : "") + "&key=" + currentKey).then(function (response) {
     return response.json();
   }).then(function (response) {
     if (response.error && response.error.code === 403) {
@@ -97,10 +56,6 @@ var ytRequest = function ytRequest() {
     })));
 
     ytItems = [].concat(_toConsumableArray(ytItems), _toConsumableArray(currentYtItems));
-    console.log(ytItems);
-    localStorage.setItem('ytItems', "" + ytItems.map(function (el) {
-      return JSON.stringify(el);
-    }));
     if (ytItems.length === totalResults - 2) {
       document.querySelector("#getPosts").style = "display: none";
     }
@@ -117,7 +72,6 @@ var renderInstItems = function renderInstItems(items) {
         comments = _ref.comments,
         link = _ref.link;
 
-    console.log(link);
     return "\n  <div class=\"image_moments\">\n    <a href=\"" + link + "\" target=\"_blank\">\n        <img src=\"" + img + "\" alt=\"\" />\n    </a>\n  </div>\n  <div class=\"social\">\n    <a target=\"_blank\" href=\"" + link + "\" class=\"btn_like\">" + likes + "</a>\n    <a target=\"_blank\" href=\"" + link + "\" class=\"btn_comment\">" + comments + "</a>\n</div>";
   };
   items.forEach(function (el) {
@@ -132,15 +86,17 @@ var renderInstItems = function renderInstItems(items) {
     }, 100);
   });
 
-  setTimeout(function () {
-    return new Masonry(document.querySelector(".wrap_moments"), {
+  return setTimeout(function () {
+    new Masonry(document.querySelector(".wrap_moments"), {
       itemSelector: ".item_moments",
       singleMode: !1,
       isResizable: !0,
       isAnimated: !0,
       animationOptions: { queue: !1, duration: 500 }
     });
-  }, 100);
+
+    document.querySelector("footer").style = "opacity: 1";
+  }, 500);
 };
 
 var instRequest = function instRequest() {
@@ -178,7 +134,6 @@ var renderYtItems = function renderYtItems(ytItems) {
   var html = function html(id, img) {
     return "\n                      <a href=\"" + getYtHref(id) + "\" target=\"_blank\">\n                          <img src=\"" + img + "\" alt=\"Alt\">\n                      </a>";
   };
-  console.log(ytItems);
   ytItems.forEach(function (el) {
     var elem = document.createElement("div");
     elem.classList.add("item_video");
